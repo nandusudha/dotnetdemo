@@ -18,9 +18,9 @@ variables:
   namespace: 'walmartdev'
   k8sconnection: 'kubewalmartdev'
   imagePullSecret: 'test'
-- task: NuGetAuthenticate@1
+- task: DotNetCoreCLI@2
   inputs:
-    forceReinstallCredentialProvider: true
+    command: 'build'
 stages:
 - stage: 'Build'
   jobs:
