@@ -17,7 +17,11 @@ variables:
   repository: 'walmartpayment'
   namespace: 'walmartdev'
   k8sconnection: 'kubewalmartdev'
-  - task: Docker@2
+  - task: - task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Run a Docker Compose command'
   inputs:
 - task: ManualValidation@0
   inputs:
