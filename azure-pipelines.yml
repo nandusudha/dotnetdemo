@@ -1,7 +1,9 @@
 # ASP.NET Core
-- task: NuGetAuthenticate@1
+- task: NuGetCommand@2
   inputs:
-    forceReinstallCredentialProvider: true
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
