@@ -1,7 +1,7 @@
 # ASP.NET Core
-- task: NuGetToolInstaller@1
+- task: NuGetAuthenticate@1
   inputs:
-    versionSpec: 
+    forceReinstallCredentialProvider: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
