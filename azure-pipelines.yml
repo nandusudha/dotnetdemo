@@ -44,6 +44,9 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy to AKS
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
     pool:
       name: 'Demo'   
     environment: 'Dev'
