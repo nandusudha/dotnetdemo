@@ -17,9 +17,10 @@ variables:
   repository: 'walmartpayment'
   namespace: 'walmartdev'
   k8sconnection: 'kubewalmartdev'
-  - task: DockerInstaller@0
+  - task: Docker@2
   inputs:
-    dockerVersion: '17.09.0-ce': 'test'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile' 'test'
 - task: DotNetCoreCLI@2
   inputs:
 - task: DotNetCoreCLI@2
