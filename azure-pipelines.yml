@@ -13,9 +13,10 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-- task: DockerInstaller@0
+- task: DownloadGitHubNugetPackage@1
   inputs:
-    dockerVersion: '17.09.0-ce'
+    packageName: 'nuget.exe'
+    version: 'v6.3.1'
 trigger:
 - develop
 - feature/*
