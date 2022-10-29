@@ -19,6 +19,9 @@ variables:
   k8sconnection: 'kubewalmartdev'
   - task: Docker@2
   inputs:
+- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'Manual validation'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile' 'test'
 - task: DotNetCoreCLI@2
