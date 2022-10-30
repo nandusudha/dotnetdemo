@@ -10,8 +10,8 @@ pool:
   name: Demo
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  dotNetFramework: 'net6.0'
   buildConfiguration: 'Release'
 
 steps:
