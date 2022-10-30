@@ -3,6 +3,9 @@ trigger:
 
 pool:
   name: 'Demo'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
 
 variables:
   buildConfiguration: 'Release'
