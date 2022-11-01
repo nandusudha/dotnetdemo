@@ -5,8 +5,7 @@
 
 trigger:
 - develop
-- feature/*
-- master
+
 pool: 
   vmImage: ubuntu-latest
 variables:
@@ -16,40 +15,50 @@ stages:
     displayName: "Build the Web Application"
     jobs:
     - job: 'Build client'
-      displayName: 'Build Job'
+       displayName: 'Build Job'
       pool: 
         vmImage: ubuntu-latest
       steps: 
       - task: Npm@1
         displayName: "install Angualar Dependencies"
         inputs: 
-        command: install
-        verbose: false
-        workingDir: ClientApp
-      -  task: Npm@1
-         displayName: "Build Angular"
-         inputs: 
-         command: install
-         customCommand: "run Build -- Prod"
-         verbose: false
-         workingDir: ClientApp
+          command: install
+          verbose: false
+          workingDir: ClientApp
+      - task: Npm@1
+          displayName: "Build Angular"
+          inputs: 
+          command: install
+          customCommand: "run Build -- Prod"
+          verbose: false
+          workingDir: ClientApp
       - task: Npm@1
         displayName: "Test UI"
         inputs: 
-        command: install
-        customCommand: "run test-- Watch-false"
-        verbose: false
-        workingDir: ClientApp
+          command: install
+          customCommand: "run test-- Watch-false"
+          verbose: false
+          workingDir: ClientApp
       - task: DotNetCoreCLI@2
         displayName: "Restore Project Dependencies"
         inputs: 
-        command: restore
-        projects: "**/*.csproj"
+          command: restore
+          projects: "**/*.csproj"
       - task: DotNetCoreCLI@2
         displayName: "dotnet build $(buildConfiguration)"
         inputs: 
-        arguments: "-o restore ..configuration $(buildconfiguration)"
-        command: build
-        projects: "**/*.csproj"
-    
+          arguments: "- no restore ..configuration $(buildconfiguration)"
+          command: 'build'
+          projects: "**/*.csproj"
+
+      - task: DotNetCoreCLI@2
+        displayName: "Publish the Project - $(buildConfiguration)"
+        
+        inputs: 
+          command: 'Publish'
+          publishWebProjects: false
+          arguments: "- no build ..configuration $(buildconfiguration) .. output  $(Build.ArtifactStagingDirectory)
+          zipAfterPublish: true
+      -publish: '$(Build.ArtifactStagingDirectory)'
+       artifact: $(artifaceName)
 
