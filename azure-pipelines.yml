@@ -49,7 +49,7 @@ stages:
       - task: DotNetCoreCLI@2
         displayName: "dotnet build $(buildConfiguration)"
         inputs: 
-          arguments: "- no restore ..configuration $(buildconfiguration)"
+          arguments: "--no restore --configuration $(buildconfiguration)"
           command: 'build'
           projects: "**/*.csproj"
 
@@ -59,7 +59,7 @@ stages:
         inputs: 
           command: 'Publish'
           publishWebProjects: false
-          arguments: "- no build ..configuration $(buildconfiguration) .. output  $(Build.ArtifactStagingDirectory)
+          arguments: "--no build --configuration $(buildconfiguration) --output  $(Build.ArtifactStagingDirectory)
           zipAfterPublish: true
       -publish: '$(Build.ArtifactStagingDirectory)'
        artifact: $(artifaceName)
