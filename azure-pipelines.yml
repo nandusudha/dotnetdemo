@@ -15,5 +15,42 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+ # UI Layer
+- task: Npm@1
+   displayName: 'install Angualar Dependencies'
+  inputs:
+    command: install 
+    workingDir: 'ClientApp'
+    verbose: false
+- task: Npm@1
+    displayName: 'Build Angular'
+  inputs:
+    command: install 
+    workingDir: 'ClientApp'
+    verbose: false
+    customCommand: 'run Build -- Prod'
+    - task: Npm@1
+    displayName: 'Test UI'
+  inputs:
+    command: install 
+    workingDir: 'ClientApp'
+    verbose: false
+    customCommand: 'run test-- Watch-false'
+
+# Middle Layer
+- task: DotNetCoreCLI@2
+   displayName: 'Restore Project Dependencies'
+  inputs:
+   command: 'restore' 
+   projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
+   displayName: 'dotnet build $(buildConfiguration)'
+  inputs:
+   command: 'build' 
+   arguments: '-o restore ..configuration $(buildconfiguration)'
+   projects: '**/*.csproj'
+
+
+
+
+    
