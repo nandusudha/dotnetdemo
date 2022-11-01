@@ -40,7 +40,7 @@ stages:
       customCommand: "run test-- Watch-false"
       verbose: false
       workingDir: ClientApp
-    - task: Npm@1
+    - task: DotNetCoreCLI@2
       displayName: "Restore Project Dependencies"
       inputs: 
       command: restore
