@@ -29,7 +29,7 @@ steps:
     workingDir: 'ClientApp'
     verbose: false
     customCommand: 'run Build -- Prod'
-    - task: Npm@1
+- task: Npm@1
     displayName: 'Test UI'
   inputs:
     command: install 
@@ -39,16 +39,16 @@ steps:
 
 # Middle Layer
 - task: DotNetCoreCLI@2
-   displayName: 'Restore Project Dependencies'
+    displayName: 'Restore Project Dependencies'
   inputs:
-   command: 'restore' 
+    command: 'restore' 
    projects: '**/*.csproj'
 - task: DotNetCoreCLI@2
-   displayName: 'dotnet build $(buildConfiguration)'
+    displayName: 'dotnet build $(buildConfiguration)'
   inputs:
-   command: 'build' 
-   arguments: '-o restore ..configuration $(buildconfiguration)'
-   projects: '**/*.csproj'
+    command: 'build' 
+    arguments: '-o restore ..configuration $(buildconfiguration)'
+    projects: '**/*.csproj'
 
 
 
