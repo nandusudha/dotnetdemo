@@ -7,50 +7,49 @@ trigger:
 - develop
 - feature/*
 - master
-
-pool:
+pool: 
   vmImage: ubuntu-latest
-
 variables:
   buildConfiguration: 'Release'
-
-steps:
- # UI Layer
-- task: Npm@1
-    displayName: 'install Angualar Dependencies'
-  inputs:
-    command: install 
-    workingDir: 'ClientApp'
-    verbose: false
-- task: Npm@1
-    displayName: 'Build Angular'
-  inputs:
-     command: install 
-     workingDir: 'ClientApp'
-     verbose: false
-     customCommand: 'run Build -- Prod'
-- task: Npm@1
-     displayName: 'Test UI'
-  inputs:
-     command: install 
-     workingDir: 'ClientApp'
-     verbose: false
-     customCommand: 'run test-- Watch-false'
-
-# Middle Layer
-- task: DotNetCoreCLI@2
-     displayName: 'Restore Project Dependencies'
-  inputs:
-     command: 'restore' 
-   projects: '**/*.csproj'
-- task: DotNetCoreCLI@2
-     displayName: 'dotnet build $(buildConfiguration)'
-  inputs:
-     command: 'build' 
-     arguments: '-o restore ..configuration $(buildconfiguration)'
-     projects: '**/*.csproj'
-
-
-
-
+stages: 
+  - stage: 
+    displayName: "Build the Web Application"
+    jobs:
+    - job: 'Build client'
+      displayName: 'Build Job'
+      pool: 
+        vmImage: ubuntu-latest
+   steps: 
+   - task: Npm@1
+     displayName: "install Angualar Dependencies"
+     inputs: 
+       command: install
+       verbose: false
+       workingDir: ClientApp
+  - task: Npm@1
+    displayName: "Build Angular"
+    inputs: 
+      command: install
+      customCommand: "run Build -- Prod"
+      verbose: false
+      workingDir: ClientApp
+    - task: Npm@1
+      displayName: "Test UI"
+      inputs: 
+      command: install
+      customCommand: "run test-- Watch-false"
+      verbose: false
+      workingDir: ClientApp
+    - task: Npm@1
+      displayName: "Restore Project Dependencies"
+      inputs: 
+      command: restore
+      projects: "**/*.csproj"
+    - task: DotNetCoreCLI@2
+      displayName: "dotnet build $(buildConfiguration)"
+      inputs: 
+      arguments: "-o restore ..configuration $(buildconfiguration)"
+      command: build
+      projects: "**/*.csproj"
     
+
