@@ -19,37 +19,37 @@ stages:
       displayName: 'Build Job'
       pool: 
         vmImage: ubuntu-latest
-   steps: 
-   - task: Npm@1
-     displayName: "install Angualar Dependencies"
-     inputs: 
-       command: install
-       verbose: false
-       workingDir: ClientApp
-  - task: Npm@1
-    displayName: "Build Angular"
-    inputs: 
-      command: install
-      customCommand: "run Build -- Prod"
-      verbose: false
-      workingDir: ClientApp
-    - task: Npm@1
-      displayName: "Test UI"
-      inputs: 
-      command: install
-      customCommand: "run test-- Watch-false"
-      verbose: false
-      workingDir: ClientApp
-    - task: DotNetCoreCLI@2
-      displayName: "Restore Project Dependencies"
-      inputs: 
-      command: restore
-      projects: "**/*.csproj"
-    - task: DotNetCoreCLI@2
-      displayName: "dotnet build $(buildConfiguration)"
-      inputs: 
-      arguments: "-o restore ..configuration $(buildconfiguration)"
-      command: build
-      projects: "**/*.csproj"
+      steps: 
+      - task: Npm@1
+        displayName: "install Angualar Dependencies"
+        inputs: 
+        command: install
+        verbose: false
+        workingDir: ClientApp
+      -  task: Npm@1
+         displayName: "Build Angular"
+         inputs: 
+         command: install
+         customCommand: "run Build -- Prod"
+         verbose: false
+         workingDir: ClientApp
+      - task: Npm@1
+        displayName: "Test UI"
+        inputs: 
+        command: install
+        customCommand: "run test-- Watch-false"
+        verbose: false
+        workingDir: ClientApp
+      - task: DotNetCoreCLI@2
+        displayName: "Restore Project Dependencies"
+        inputs: 
+        command: restore
+        projects: "**/*.csproj"
+      - task: DotNetCoreCLI@2
+        displayName: "dotnet build $(buildConfiguration)"
+        inputs: 
+        arguments: "-o restore ..configuration $(buildconfiguration)"
+        command: build
+        projects: "**/*.csproj"
     
 
