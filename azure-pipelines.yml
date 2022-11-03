@@ -76,13 +76,11 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+              azureSubscription: 'Narmadaclouds'
               appType: 'webAppLinux'
-              WebAppName: $(appName)
+              WebAppName: 'NarmadaDev'
               packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-        
-    
-
+          
 
 
 
