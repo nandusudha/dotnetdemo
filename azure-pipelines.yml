@@ -60,7 +60,7 @@ stages:
         zipAfterPublish: true
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifaceName)
-stages:
+
 - stage: 'DeployDev'
   displayName: 
   # condition: and(succeeded(), eq(variables).isMain,'true')
