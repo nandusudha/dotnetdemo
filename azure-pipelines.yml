@@ -21,8 +21,8 @@ stages:
   jobs:
   - job: 'BuildClient'
     displayName: 'Build job'
-# UI Layer
 steps:
+# UI Layer
 - task: Npm@1
   displayName: 'Restore Angular Dependencies'
   inputs:
