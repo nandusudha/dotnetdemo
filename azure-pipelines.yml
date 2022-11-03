@@ -2,14 +2,11 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - develop
 - feature/*
-
 pool:
   vmImage: ubuntu-latest
-
 variables:
   buildConfiguration: 'Release'
   buildPlatform: 'Any CPU'
@@ -22,7 +19,6 @@ stages:
   - job: 'BuildClient'
     displayName: 'Build job'
 steps:
-# UI Layer
 - task: Npm@1
   displayName: 'Restore Angular Dependencies'
   inputs:
