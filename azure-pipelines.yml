@@ -1,82 +1,97 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
+- main
+- master
 - develop
 - feature/*
-- master
 
 pool:
-  name: 'Demo'
+  vmImage: ubuntu-latest
 
 variables:
+  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  dotNetFramework: 'net6.0'
-  repository: 'walmartpayment'
-  namespace: 'walmartdev'
-  k8sconnection: 'kubewalmartdev'
-  imagePullSecret: 'test'
+  artifaceName: drop
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 
 stages:
 - stage: 'Build'
+  displayName: 'Build the web application'
   jobs:
-  - job: 'Build'
-    steps:
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'ACRDocker'
-          repository: '$(repository)'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: |
-            latest
-            $(Build.BuildNumber)
-
-      - task: PublishPipelineArtifact@1
-        inputs:
-          artifactName: 'manifests'
-          path: 'manifests'
-
-- stage: 'Deploy'
-  displayName: 'Deployment to Dev'
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy to AKS
+  - job: 'BuildClient'
+    displayName: 'Build job'
     pool:
-      name: 'Demo'   
-    environment: 'Dev'
-    strategy:
-      runOnce:
+      vmImage: ubuntu-latest
+
+    steps:
+    # UI Layer
+    - task: Npm@1
+      displayName: 'Restore Angular Dependencies'
+      inputs:
+        command: install
+        workingDir: 'ClientApp'
+        verbose: false
+
+    - task: Npm@1
+      displayName: 'Build Angular'
+      inputs:
+        command: custom
+        workingDir: 'ClientApp'
+        verbose: false
+        customCommand: 'run build --prod'
+
+    - task: Npm@1
+      displayName: 'Test UI'
+      inputs:
+        command: custom
+        workingDir: 'ClientApp'
+        verbose: false
+        customCommand: 'run test --watch=false'
+
+    # Middle Layer
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        zipAfterPublish: true
+
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      artifact: $(artifaceName)
+
+- stage: 'DeployDev'
+  displayName: 'Deploy to Dev'
+  # condition: and(succeeded(), eq(variables.isMain, 'true'))
+  variables: 
+    appName: 'NarmadaApps'
+  jobs:
+  - deployment: 'Test'
+
+    environment: 'Test'
+    strategy: 
+       runOnce:     
         deploy:
           steps:
-           - task: DownloadPipelineArtifact@2
-             displayName: 'Download Manifests'
-             inputs:
-                artifactName: 'manifests'
-                downloadPath: '$(System.ArtifactsDirectory)/manifests'
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1'
+              appType: 'webAppLinux'
+              WebAppName: $(appName)
+              packageForLinux: '$(Pipeline.Workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
 
-           - task: KubernetesManifest@0
-             displayName: Create imagePullSecret
-             inputs:
-                kubernetesServiceConnection: $(k8sconnection)
-                action: createSecret
-                secretName: $(imagePullSecret)
-                namespace: $(namespace)
-                dockerRegistryEndpoint: 'ACRDocker'
-              
-           - task: KubernetesManifest@0
-             displayName: Deploy
-             inputs:
-              kubernetesServiceConnection: $(k8sconnection)
-              action: deploy
-              namespace: $(namespace)
-              manifests: |
-                $(System.ArtifactsDirectory)/manifests/deployment.yaml
-                $(System.ArtifactsDirectory)/manifests/Service.yaml
-                $(System.ArtifactsDirectory)/manifests/Ingress.yaml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              arguments: '-n=walmartdev'
-  
