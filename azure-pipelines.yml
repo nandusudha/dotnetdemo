@@ -60,8 +60,27 @@ stages:
         zipAfterPublish: true
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: $(artifaceName)
-
-
+stages:
+- stage: 'DeployDev'
+  displayName: 
+  # condition: and(succeeded(), eq(variables).isMain,'true')
+  variables:
+    appName: 'NarmadaDev'
+  jobs:
+  - deployment: 'Dev'
+    environment: 'Dev'
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+              appType: 'webAppLinux'
+              WebAppName: $(appName)
+              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        
     
 
 
