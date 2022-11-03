@@ -18,48 +18,48 @@ stages:
   jobs:
   - job: 'BuildClient'
     displayName: 'Build job'
-steps:
-- task: Npm@1
-  displayName: 'Restore Angular Dependencies'
-  inputs:
-  command: install
-  workingDir: 'ClientApp'
-  verbose: false
-- task: Npm@1
-  displayName: 'Build Angular'
-  inputs:
-  command: install
-  workingDir: 'ClientApp'
-  verbose: false
-  customCommand: 'run build --prod'
-- task: Npm@1
-  displayName: 'Test UI'
-  inputs:
-  command: install
-  workingDir: 'ClientApp'
-  verbose: false
-  customCommand: 'run test --watch=false'
+    steps:
+    - task: Npm@1
+      displayName: 'Restore Angular Dependencies'
+      inputs:
+        command: install
+        workingDir: 'ClientApp'
+        verbose: false
+    - task: Npm@1
+      displayName: 'Build Angular'
+      inputs:
+        command: install
+        workingDir: 'ClientApp'
+        verbose: false
+        customCommand: 'run build --prod'
+    - task: Npm@1
+      displayName: 'Test UI'
+      inputs:
+        command: install
+        workingDir: 'ClientApp'
+        verbose: false
+        customCommand: 'run test --watch=false'
   # Middle Layer
-- task: DotNetCoreCLI@2
-  displayName: 'Restore project dependencies'
-  inputs:
-    command: 'restore'
-    projects: 'dotnet6.csproj'
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project - $(buildConfiguration)'
-  inputs:
-    command: 'build'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
-    projects: 'dotnet6.csproj'
-- task: DotNetCoreCLI@2
-  displayName: 'Publish the project - $(buildConfiguration)'
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-    zipAfterPublish: true
-- publish: '$(Build.ArtifactStagingDirectory)'
-  artifact: $(artifaceName)
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: 'dotnet6.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: 'dotnet6.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        zipAfterPublish: true
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      artifact: $(artifaceName)
 
 
     
