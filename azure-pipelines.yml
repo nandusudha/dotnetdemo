@@ -78,11 +78,11 @@ stages:
   displayName: 'Deploy to Dev'
   # condition: and(succeeded(), eq(variables.isMain, 'true'))
   variables: 
-    appName: 'NarmadaDev'
+    appName: 'NarmadaApps'
   jobs:
-  - deployment: 'Test'
+  - deployment: 'Dev'
 
-    environment: 'NarmadaTest'
+    environment: 'Dev'
     strategy: 
        runOnce:     
         deploy:
