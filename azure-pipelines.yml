@@ -82,7 +82,7 @@ stages:
   jobs:
   - deployment: 'Test'
 
-    environment: 'Test'
+    environment: 'NarmadaTest'
     strategy: 
        runOnce:     
         deploy:
