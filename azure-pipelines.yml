@@ -65,21 +65,25 @@ stages:
   displayName: 
   # condition: and(succeeded(), eq(variables).isMain,'true')
   variables:
-    appName: 'NarmadaDev'
+    appName: 'NanduApp'
+
   jobs:
   - deployment: 'Dev'
     environment: 'Dev'
+
     strategy: 
       runOnce:
         deploy:
           steps:
           - task: AzureRmWebAppDeployment@4
             inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Narmadaclouds'
-              appType: 'webAppLinux'
-              WebAppName: $(appName)
-              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+             ConnectionType: 'AzureRM'
+             azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+             appType: 'webAppLinux'
+             WebAppName: 'NarmadaDev'
+             packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              
+
           
 
 
