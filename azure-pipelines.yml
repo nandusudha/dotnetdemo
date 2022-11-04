@@ -84,7 +84,7 @@ stages:
              appType: 'webAppLinux'
              WebAppName: $(appName)
              packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
-- stage: 'DeployDev'
+- stage: 'DeployTest'
   displayName: 
   # condition: and(succeeded(), eq(variables).isMain,'true')
   variables:
