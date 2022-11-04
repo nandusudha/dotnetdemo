@@ -67,7 +67,7 @@ stages:
   displayName: 
   # condition: and(succeeded(), eq(variables).isMain,'true')
   variables:
-    appName: 'NanduApp'
+    appName: 'NarmadaDev'
 
   jobs:
   - deployment: 'Dev'
@@ -84,10 +84,52 @@ stages:
              appType: 'webAppLinux'
              WebAppName: 'NarmadaDev'
              packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
-          
+
+- stage: 'DeployTest'
+  displayName: 
+  # condition: and(succeeded(), eq(variables).isMain,'true')
+  variables:
+    appName: 'NarmadaTest'
+
+    jobs:
+    - deployment: 'Test'
+      environment: 'Test'
+
+    strategy: 
+        runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+              appType: 'webAppLinux'
+              WebAppName: 'NarmadaTest'
+              packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
+- stage: 'DeployProd'
+  displayName: 
+  # condition: and(succeeded(), eq(variables).isMain,'true')
+  variables:
+    appName: 'NarmadaProd'
+
+    jobs:
+    - deployment: 'Prod'
+      environment: 'Prod'
+
+    strategy: 
+        runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+              appType: 'webAppLinux'
+              WebAppName: 'NarmadaProd'
+              packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
               
 
-          
+      
 
 
 
