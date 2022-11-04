@@ -83,7 +83,7 @@ stages:
              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
              appType: 'webAppLinux'
              WebAppName: 'NarmadaDev'
-             packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+             packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
           
               
 
