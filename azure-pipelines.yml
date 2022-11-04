@@ -82,6 +82,47 @@ stages:
              ConnectionType: 'AzureRM'
              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
              appType: 'webAppLinux'
-             WebAppName: 'NarmadaDev'
+             WebAppName: $(appName)
              packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
+- stage: 'DeployDev'
+  displayName: 
+  # condition: and(succeeded(), eq(variables).isMain,'true')
+  variables:
+    appName: 'NarmadaTest'
 
+  jobs:
+  - deployment: 'Test'
+    environment: 'Test'
+
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+          
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+             ConnectionType: 'AzureRM'
+             azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+             appType: 'webAppLinux'
+             WebAppName: $(appName)
+             packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
+- stage: 'DeployProd'
+  displayName: 
+  # condition: and(succeeded(), eq(variables).isMain,'true')
+  variables:
+    appName: 'NarmadaProd'
+  jobs:
+  - deployment: 'Prod'
+    environment: 'Prod'
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+          
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+             ConnectionType: 'AzureRM'
+             azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
+             appType: 'webAppLinux'
+             WebAppName: $(appName)
+             packageForLinux: '$(pipeline.workspace)/$(artifaceName)/$(buildConfiguration)/*.zip'
