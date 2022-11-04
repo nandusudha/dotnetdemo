@@ -81,7 +81,7 @@ stages:
              azureSubscription: 'Azure subscription 1(ba90dea8-7d6b-4ddc-88a8-4bf24d30d498)'
              appType: 'webAppLinux'
              WebAppName: 'NarmadaDev'
-             packageForLinux: '$(Build.ArtifactStagingDirectory)/$(buildConfiguration)/*.zip'
+             packageForLinux: '/home/vsts/work/1/**/*.zip'
               
 
           
