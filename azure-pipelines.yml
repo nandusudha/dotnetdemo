@@ -19,7 +19,7 @@ stages:
     steps:
       - task: Docker@2
         inputs:
-          containerRegistry: 'ACRdockerregistory'
+          containerRegistry: 'ACRdocker'
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
