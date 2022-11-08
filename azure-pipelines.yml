@@ -23,5 +23,8 @@ stages:
           repository: 'dotnetdemo'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
+          tags: |
+            latest
+            $(Build.BuildNumber)
           
          
