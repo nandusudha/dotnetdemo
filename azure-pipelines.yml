@@ -9,7 +9,6 @@ pool:
   vmImage: ubuntu-latest
 variables:
   buildConfiguration: 'Release'
-  buildPlatform: 'Any CPU'
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 stages:
 - stage: 'Build'
@@ -22,7 +21,7 @@ stages:
       - task: Docker@2
         inputs:
           containerRegistry: 'ACRdocker'
-          repository: '$(dotnetdemo (1))'
+          repository: '$(dotnetdemo)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           
