@@ -19,8 +19,9 @@ stages:
     steps:
       - task: Docker@2
         inputs:
-          containerRegistry: 'ACRdockerregistry'
+          containerRegistry: 'ACRdocker'
           repository: 'dotnetdemo'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
+          
          
