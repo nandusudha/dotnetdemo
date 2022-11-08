@@ -17,20 +17,11 @@ stages:
   - job: 'BuildClient'
     displayName: 'Build job'
     steps:
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'ACRdocker'
-          repository: 'dotnetdemo'
-          command: 'buildAndPush'
-          Dockerfile: '**/Dockerfile'
-          tags: |
-            latest
-            $(Build.BuildNumber)
-            - task: Docker@2
-              inputs:
-                containerRegistry: 'ACRdockerregistry'
-                repository: 'dotnetdemo'
-                command: 'buildAndPush'
-                Dockerfile: '**/Dockerfile'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'ACRdockerregistry'
+        repository: 'dotnetdemo'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
           
          
