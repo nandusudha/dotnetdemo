@@ -19,9 +19,12 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'ACRdocker'
+        containerRegistry: 'ACRdocker registry'
         repository: 'dotnetdemo'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: |
+            latest
+            $(Build.BuildNumber)
           
          
