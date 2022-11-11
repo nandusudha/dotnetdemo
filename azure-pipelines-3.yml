@@ -9,7 +9,13 @@ pool:
   vmImage: ubuntu-latest
 variables:
   buildConfiguration: 'Release'
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  dotnetFramework: 'net6.0'
+  repository : 'dotnetdemo'
+  namespace : 'narmadakubenamespace'
+  k8sconnection: 'AzureKubernetes'
+  imagePullSecret: 'test'
+  containerRegistry: 'narmadacontainerregistry.azurecr.io'
+  
 stages:
 - stage: 'Build'
   displayName: 'Build the web application'
