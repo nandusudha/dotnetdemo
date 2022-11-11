@@ -61,7 +61,7 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               namespace: $(namespace)
-              dockerRegistryEndpoint: $(AzureDocker)
+              dockerRegistryEndpoint: 'AzureDocker'
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
