@@ -42,7 +42,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy to AKS
-    environment: ' walmartpayment-dev'
+    environment: ' Dev'
     strategy:
       runOnce:
         deploy:
