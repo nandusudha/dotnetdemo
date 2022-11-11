@@ -54,6 +54,6 @@ spec:
           periodSeconds: 10
         ports:
         - containerPort:  80
-          name:  narmada-dev
+          name:  narmadakube
         imagePullPolicy: Always
       restartPolicy: Always
