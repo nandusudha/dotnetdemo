@@ -8,7 +8,7 @@ trigger:
 - feature/*
 - Featuretesting
 pool:
-  vmImage: ubuntu-latest
+   vmImage: ubuntu-latest
 variables:
   buildConfiguration: 'Release'
   dotnetFramework: 'net6.0'
@@ -25,18 +25,18 @@ stages:
   - job: 'BuildClient'
     displayName: 'Build job'
     steps:
-     - task: Docker@2
-        inputs:
+    - task: Docker@2
+      inputs:
           containerRegistry: 'AzureDocker'
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           
-      - task: PublishPipelineArtifact@1
-        inputs:
-         artifactName: 'manifests'
-         path: 'manifests'
-         condition: 
+    - task: PublishPipelineArtifact@1
+      inputs:
+           artifactName: 'manifests'
+           path: 'manifests'
+         
 - stage: Deploy
   displayName: 'Deployment of Dev'
  
