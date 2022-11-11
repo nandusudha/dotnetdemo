@@ -36,11 +36,11 @@ stages:
          artifactName: 'manifests'
          path: 'manifests'
         condition: 
-- stage: Deploy
+- stage: 'Deploy'
   displayName: 'Deployment of Dev'
  
   jobs:
-  - deployment: walmartpayment-dev
+  - deployment: Deploy
     displayName: Deploy to AKS
     environment: 'Dev'
     strategy:
