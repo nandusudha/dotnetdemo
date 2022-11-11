@@ -6,6 +6,7 @@
 trigger:
 - develop
 - feature/*
+- Featuretesting
 pool:
   vmImage: ubuntu-latest
 variables:
