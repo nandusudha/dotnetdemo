@@ -15,7 +15,7 @@ variables:
   namespace : 'walmartdev'
   k8sconnection: 'AzureKubernetes'
   imagePullSecret: 'test'
-  containerRegistry: 'azacrshared.azurecr.io/walmartpayment:latest'
+  containerRegistry: 'narmadacontainerregistry.azurecr.io/dotnetdemo:258'
   
 stages:
 - stage: 'Build'
