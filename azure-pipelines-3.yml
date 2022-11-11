@@ -77,5 +77,6 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(repository):$(tag)
+                
 
 
