@@ -3,8 +3,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: walmartingressdev
-  namespace: walmartdev
+  name: narmadaingressdev
+  namespace: narmadakubenamespace
 spec:
   rules:
   - host: bermtec.com
@@ -14,6 +14,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: walmartpaymentservice
+            name: Narmada-dev
             port:
               number: 80
