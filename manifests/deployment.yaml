@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:  narmada-dev
-  namespace: narmadakubenamespace
+  namespace: narmadakube
   labels:
     app:  narmadaapps-dev
 spec:
@@ -54,6 +54,6 @@ spec:
           periodSeconds: 10
         ports:
         - containerPort:  80
-          name:  narmadakubenamespace
+          name:  narmada-dev
         imagePullPolicy: Always
       restartPolicy: Always

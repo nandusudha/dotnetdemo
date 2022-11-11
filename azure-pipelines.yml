@@ -13,7 +13,7 @@ variables:
   buildConfiguration: 'Release'
   dotnetFramework: 'net6.0'
   repository : 'dotnetdemo'
-  namespace : 'narmadakubenamespace'
+  namespace : 'narmadakube'
   k8sconnection: 'AzureKubernetes'
   imagePullSecret: 'test'
   containerRegistry: 'narmadacontainerregistry.azurecr.io'
@@ -25,7 +25,7 @@ stages:
   - job: 'BuildClient'
     displayName: 'Build job'
     steps:
-      - task: Docker@2
+     - task: Docker@2
         inputs:
           containerRegistry: 'AzureDocker'
           repository: '$(repository)'

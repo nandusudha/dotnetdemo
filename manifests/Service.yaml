@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: narmada-dev
-  namespace: 'narmadakubenamespace'
+  namespace: 'narmadakube'
 spec:
   selector:
     app: narmadaapp-dev
