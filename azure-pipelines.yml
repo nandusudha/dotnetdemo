@@ -36,7 +36,7 @@ stages:
         inputs:
          artifactName: 'manifests'
          path: 'manifests'
-        condition: 
+         condition: 
 - stage: Deploy
   displayName: 'Deployment of Dev'
  
