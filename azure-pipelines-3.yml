@@ -30,9 +30,7 @@ stages:
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: |
-            latest        
-            $(Build.BuildNumber)
+          
       - task: PublishPipelineArtifact@1
         inputs:
          artifactName: 'manifests'
@@ -77,6 +75,6 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(repository):$(Build.BuildNumber)
+                $(containerRegistry)/$(repository):$(tag)
 
 
