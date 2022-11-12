@@ -30,9 +30,6 @@ stages:
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: |
-            latest
-            $(Build.BuildNumber)
           
     - task: PublishPipelineArtifact@1
       inputs:
@@ -80,9 +77,5 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(repository):$(Build.BuildNumber)
-                arguments: '-n=narmadakube'
-
-
-
 
 
