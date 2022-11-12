@@ -26,7 +26,7 @@ spec:
           # - Each init container must complete successfully before the next one starts.
       containers:
       - name:  narmada-dev
-        image:  narmadacontainerregistry.azurecr.io/dotnetdemo:271
+        image:  narmadacontainerregistry.azurecr.io/dotnetdemo:latest
         resources:
           requests:
             cpu:  100m
@@ -54,6 +54,6 @@ spec:
           periodSeconds: 10
         ports:
         - containerPort:  80
-          name:  narmadakube
+          name: narmadakube
         imagePullPolicy: Always
       restartPolicy: Always
