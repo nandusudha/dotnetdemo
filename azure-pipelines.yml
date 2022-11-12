@@ -1,4 +1,3 @@
-
 # ASP.NET Core
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
@@ -31,6 +30,9 @@ stages:
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
+          tags: |
+            latest
+            $(Build.BuildNumber)
           
     - task: PublishPipelineArtifact@1
       inputs:
@@ -77,6 +79,10 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(repository):$(tag)
+                $(containerRegistry)/$(repository):$(Build.BuildNumber)
+                arguments: '-n=narmadakube'
+
+
+
 
 
