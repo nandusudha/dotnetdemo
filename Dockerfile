@@ -1,22 +1,13 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM alpine/git as clone (1)
 WORKDIR /app
+RUN git clone https://github.com/spring-projects/spring-petclinic.git
 
-RUN apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
-RUN apt-get -y install nodejs
+FROM maven:3.5-jdk-8-alpine as build (2)
+WORKDIR /app
+COPY --from=clone /app/spring-petclinic /app (3)
+RUN mvn install
 
-COPY . ./
-RUN dotnet restore
-
-RUN dotnet build "dotnet6.csproj" -c Release
-
-RUN dotnet publish "dotnet6.csproj" -c Release -o publish
-
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-
-COPY --from=build /app/publish .
-ENV ASPNETCORE_URLS http://*:5000
-
-EXPOSE 5000
-ENTRYPOINT ["dotnet", "dotnet6.dll"]
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/spring-petclinic-1.5.1.jar /app
+CMD ["java -jar spring-petclinic-1.5.1.jar"]
